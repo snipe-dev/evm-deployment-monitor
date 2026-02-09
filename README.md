@@ -156,7 +156,7 @@ npm start
 -   Initial liquidity analysis
 -   Risk scoring engine
 -   Extended plugin SDK
--   YOLO test
+-   Galaxy brain test
 
 ------------------------------------------------------------------------
 
