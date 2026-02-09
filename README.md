@@ -156,7 +156,7 @@ npm start
 -   Initial liquidity analysis
 -   Risk scoring engine
 -   Extended plugin SDK
-
+-   Pair test
 ------------------------------------------------------------------------
 
 Designed as a reusable infrastructure component for real-time EVM
