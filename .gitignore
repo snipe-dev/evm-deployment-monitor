@@ -12,3 +12,4 @@ src/config/*.json
 # Local data
 *.log
 
+/.idea/
