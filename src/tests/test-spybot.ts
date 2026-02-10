@@ -9,17 +9,17 @@ const bots: Record<string, { queue: TelegramQueue }> = {};
 const sql = new Sql(config.database);
 
 for (const botConfig of config.bots) {
-    const bot = new Bot(botConfig.bot_token);
-    const queue = new TelegramQueue(bot.api);
+  const bot = new Bot(botConfig.bot_token);
+  const queue = new TelegramQueue(bot.api);
 
-    if (botConfig.polling) {
-        new TelegramBot(bot, sql, {
-            owner: config.owner,
-            open_access: botConfig.open_access,
-            explorer: config.explorer
-        });
-    }
+  if (botConfig.polling) {
+    new TelegramBot(bot, sql, {
+      owner: config.owner,
+      open_access: botConfig.open_access,
+      explorer: config.explorer
+    });
+  }
 
-    bots[botConfig.bot_id] = { queue };
+  bots[botConfig.bot_id] = {queue};
 }
 

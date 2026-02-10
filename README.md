@@ -39,29 +39,29 @@ deployment intelligence and token-level behavioral signals.
 
 ## Core Capabilities
 
--   Real-time block processing for any EVM-compatible network
--   Detection of contract deployment transactions
--   ERC-20 token identification at deployment time
--   Post-deployment ERC-20 analytics:
-    -   Approve tracking
-    -   Swap detection
--   Structured event stream suitable for:
-    -   Telegram bots
-    -   Webhooks
-    -   Databases
-    -   Custom plugins
--   Chain-agnostic architecture
+- Real-time block processing for any EVM-compatible network
+- Detection of contract deployment transactions
+- ERC-20 token identification at deployment time
+- Post-deployment ERC-20 analytics:
+    - Approve tracking
+    - Swap detection
+- Structured event stream suitable for:
+    - Telegram bots
+    - Webhooks
+    - Databases
+    - Custom plugins
+- Chain-agnostic architecture
 
 ------------------------------------------------------------------------
 
 ## High-Level Flow
 
-1.  BlockReader polls new blocks.
-2.  MultinodePublicClient ensures RPC reliability.
-3.  DeploymentProcessor filters `CREATE` / `CREATE2` transactions.
-4.  ERC20Detector validates token contracts.
-5.  TokenActivityAnalyzer monitors `approve` and `swap` activity.
-6.  EventDispatcher forwards structured events to configured consumers.
+1. BlockReader polls new blocks.
+2. MultinodePublicClient ensures RPC reliability.
+3. DeploymentProcessor filters `CREATE` / `CREATE2` transactions.
+4. ERC20Detector validates token contracts.
+5. TokenActivityAnalyzer monitors `approve` and `swap` activity.
+6. EventDispatcher forwards structured events to configured consumers.
 
 ------------------------------------------------------------------------
 
@@ -71,32 +71,32 @@ The system follows a layered, event-driven design:
 
 ### Transport Layer
 
--   MultinodePublicClient
--   BlockReader
--   Normalized block and transaction delivery
+- MultinodePublicClient
+- BlockReader
+- Normalized block and transaction delivery
 
 ### Processing Layer
 
--   DeploymentProcessor
--   Deduplication logic
--   Fast-first decoding strategy
+- DeploymentProcessor
+- Deduplication logic
+- Fast-first decoding strategy
 
 ### Detection Layer
 
--   ERC20 bytecode heuristics
--   Function selector analysis
--   Optional trace-based validation
+- ERC20 bytecode heuristics
+- Function selector analysis
+- Optional trace-based validation
 
 ### Analytics Layer
 
--   ERC-20 approve tracking
--   Swap detection via known router patterns
+- ERC-20 approve tracking
+- Swap detection via known router patterns
 
 ### Delivery Layer
 
--   Plugin-based consumers
--   Telegram integration (optional)
--   Extensible event outputs
+- Plugin-based consumers
+- Telegram integration (optional)
+- Extensible event outputs
 
 All upper layers operate on normalized EVM transaction data, making the
 monitor fully chain-agnostic.
@@ -105,38 +105,39 @@ monitor fully chain-agnostic.
 
 ## Design Principles
 
--   Infrastructure-first architecture
--   Plugin-oriented extension model
--   Memory-bounded deduplication
--   RPC fault tolerance
--   Deterministic event generation
--   Separation of transport, detection, and delivery
+- Infrastructure-first architecture
+- Plugin-oriented extension model
+- Memory-bounded deduplication
+- RPC fault tolerance
+- Deterministic event generation
+- Separation of transport, detection, and delivery
 
 ------------------------------------------------------------------------
 
 ## Production Considerations
 
--   Handles unreliable RPC nodes via multi-node strategy
--   Supports horizontal scaling
--   Stateless block processing
--   Suitable for high-frequency deployment monitoring
--   Designed for integration into larger EVM analytics systems
+- Handles unreliable RPC nodes via multi-node strategy
+- Supports horizontal scaling
+- Stateless block processing
+- Suitable for high-frequency deployment monitoring
+- Designed for integration into larger EVM analytics systems
 
 ------------------------------------------------------------------------
 
 ## Technology Stack
 
--   TypeScript
--   viem
--   eventemitter3
--   MySQL / SQLite
--   grammY
+- TypeScript
+- viem
+- eventemitter3
+- MySQL / SQLite
+- grammY
+
 ------------------------------------------------------------------------
 
 ## Requirements
 
--   Node.js 18+
--   RPC endpoints for target EVM networks
+- Node.js 18+
+- RPC endpoints for target EVM networks
 
 ------------------------------------------------------------------------
 
@@ -151,12 +152,12 @@ npm start
 
 ## Roadmap
 
--   Advanced honeypot detection
--   Liquidity add detection
--   Initial liquidity analysis
--   Risk scoring engine
--   Extended plugin SDK
--   Galaxy brain test
+- Advanced honeypot detection
+- Liquidity add detection
+- Initial liquidity analysis
+- Risk scoring engine
+- Extended plugin SDK
+- Galaxy brain test
 
 ------------------------------------------------------------------------
 

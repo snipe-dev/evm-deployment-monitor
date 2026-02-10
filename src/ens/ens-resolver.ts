@@ -16,20 +16,20 @@ let cache: Map<string, string> | null = null;
  * @returns Database instance
  */
 function getDatabase(): Database.Database {
-    if (!db) {
-        const dbPath = path.join(__dirname, '..', 'ens', 'ens.db');
-        db = new Database(dbPath, { readonly: false });
+  if (!db) {
+    const dbPath = path.join(__dirname, '..', 'ens', 'ens.db');
+    db = new Database(dbPath, {readonly: false});
 
-        // Ensure table exists with index
-        db.exec(`
+    // Ensure table exists with index
+    db.exec(`
             CREATE TABLE IF NOT EXISTS ens (
                 address TEXT PRIMARY KEY,
                 name TEXT NOT NULL
             );
             CREATE INDEX IF NOT EXISTS idx_address ON ens(address);
         `);
-    }
-    return db;
+  }
+  return db;
 }
 
 /**
@@ -38,19 +38,19 @@ function getDatabase(): Database.Database {
  * @returns Cached ENS records as Map<address, name>
  */
 export function loadCache(): Map<string, string> {
-    const database = getDatabase();
+  const database = getDatabase();
 
-    const rows = database.prepare('SELECT address, name FROM ens').all() as { address: string, name: string }[];
+  const rows = database.prepare('SELECT address, name FROM ens').all() as { address: string, name: string }[];
 
-    cache = new Map<string, string>();
-    for (const row of rows) {
-        // Normalize addresses to lowercase for consistent lookups
-        cache.set(row.address.toLowerCase(), row.name);
-    }
+  cache = new Map<string, string>();
+  for (const row of rows) {
+    // Normalize addresses to lowercase for consistent lookups
+    cache.set(row.address.toLowerCase(), row.name);
+  }
 
-    closeDatabase();
+  closeDatabase();
 
-    return cache;
+  return cache;
 }
 
 /**
@@ -58,10 +58,10 @@ export function loadCache(): Map<string, string> {
  * @returns Cached ENS records as Map<address, name>
  */
 export function getENSCache(): Map<string, string> {
-    if (!cache) {
-        return loadCache();
-    }
-    return cache;
+  if (!cache) {
+    return loadCache();
+  }
+  return cache;
 }
 
 /**
@@ -69,8 +69,8 @@ export function getENSCache(): Map<string, string> {
  * Call this when shutting down the application
  */
 export function closeDatabase(): void {
-    if (db) {
-        db.close();
-        db = null;
-    }
+  if (db) {
+    db.close();
+    db = null;
+  }
 }

@@ -9,8 +9,8 @@ import {multicallAbi} from "./abi.js";
  * @property {Hex} callData - Encoded call data (calldata)
  */
 export interface MulticallData {
-    target: string;
-    callData: Hex;
+  target: string;
+  callData: Hex;
 }
 
 /**
@@ -24,38 +24,38 @@ export interface MulticallData {
  *          Promise that resolves to an array of results with success flag and return data
  */
 export async function multicall(
-    client: MultinodePublicClient,
-    multicallAddress: string,
-    calldata: MulticallData[]
+  client: MultinodePublicClient,
+  multicallAddress: string,
+  calldata: MulticallData[]
 ): Promise<Array<{ success: boolean; returnData: Hex }>> {
-    if (calldata.length === 0) {
-        return [];
-    }
+  if (calldata.length === 0) {
+    return [];
+  }
 
-    const data = encodeFunctionData({
-        abi: multicallAbi,
-        functionName: "tryAggregate",
-        args: [
-            false,
-            calldata.map(call => ({
-                target: call.target as Hex,
-                callData: call.callData,
-            })),
-        ],
-    });
+  const data = encodeFunctionData({
+    abi: multicallAbi,
+    functionName: "tryAggregate",
+    args: [
+      false,
+      calldata.map(call => ({
+        target: call.target as Hex,
+        callData: call.callData,
+      })),
+    ],
+  });
 
-    const result = await client.call({
-        to: multicallAddress as Hex,
-        data,
-    });
+  const result = await client.call({
+    to: multicallAddress as Hex,
+    data,
+  });
 
-    if (!result.data) {
-        return [];
-    }
+  if (!result.data) {
+    return [];
+  }
 
-    return decodeFunctionResult({
-        abi: multicallAbi,
-        functionName: "tryAggregate",
-        data: result.data,
-    }) as Array<{ success: boolean; returnData: Hex }>;
+  return decodeFunctionResult({
+    abi: multicallAbi,
+    functionName: "tryAggregate",
+    data: result.data,
+  }) as Array<{ success: boolean; returnData: Hex }>;
 }

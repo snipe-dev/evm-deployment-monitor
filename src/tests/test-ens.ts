@@ -14,7 +14,7 @@ const ensCache = getENSCache();
  * @returns ENS name or the original address if not found.
  */
 const ENS = (address: string): string =>
-    ensCache.get(address.toLowerCase()) ?? address;
+  ensCache.get(address.toLowerCase()) ?? address;
 
 /**
  * Log the number of ENS records currently loaded into memory.

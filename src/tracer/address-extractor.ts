@@ -12,100 +12,100 @@ import {getAddress, Hex, isAddress} from 'viem';
  * for real-world calldata.
  */
 export class AddressExtractor {
-    /**
-     * Extracts addresses from raw transaction calldata.
-     *
-     * The method scans calldata in 32-byte chunks using multiple offsets
-     * to catch different ABI-encoding layouts.
-     *
-     * @param _data - Transaction calldata (hex string, with 0x prefix)
-     * @returns Array of unique, lowercase addresses
-     */
-    extractAddressesFromCalldata(_data: Hex | string): string[] {
-        const addresses: string[] = [];
+  /**
+   * Extracts addresses from raw transaction calldata.
+   *
+   * The method scans calldata in 32-byte chunks using multiple offsets
+   * to catch different ABI-encoding layouts.
+   *
+   * @param _data - Transaction calldata (hex string, with 0x prefix)
+   * @returns Array of unique, lowercase addresses
+   */
+  extractAddressesFromCalldata(_data: Hex | string): string[] {
+    const addresses: string[] = [];
 
-        try {
-            if (!_data || _data.length < 76) return [];
+    try {
+      if (!_data || _data.length < 76) return [];
 
-            // Offsets used to improve coverage of ABI-encoded addresses
-            // 2  -> after "0x"
-            // 10 -> after function selector (4 bytes)
-            const offsets = [2, 10];
+      // Offsets used to improve coverage of ABI-encoded addresses
+      // 2  -> after "0x"
+      // 10 -> after function selector (4 bytes)
+      const offsets = [2, 10];
 
-            for (const offset of offsets) {
-                const data = _data.slice(offset);
+      for (const offset of offsets) {
+        const data = _data.slice(offset);
 
-                for (let i = 0; i < data.length; i += 64) {
-                    try {
-                        const chunk = data.substring(i, i + 64);
+        for (let i = 0; i < data.length; i += 64) {
+          try {
+            const chunk = data.substring(i, i + 64);
 
-                        // Address is encoded as 12 zero bytes + 20-byte address
-                        if (chunk.slice(0, 24) === '000000000000000000000000') {
-                            const addressHex = '0x' + chunk.slice(24, 64);
-                            
-                            // Validate address before adding
-                            if (isAddress(addressHex)) {
-                                const address = getAddress(addressHex);
-                                addresses.push(address.toLowerCase());
-                            }
-                        }
-                    } catch (e) {
-                        // Ignore invalid chunk or address
-                    }
-                }
+            // Address is encoded as 12 zero bytes + 20-byte address
+            if (chunk.slice(0, 24) === '000000000000000000000000') {
+              const addressHex = '0x' + chunk.slice(24, 64);
+
+              // Validate address before adding
+              if (isAddress(addressHex)) {
+                const address = getAddress(addressHex);
+                addresses.push(address.toLowerCase());
+              }
             }
-        } catch (e) {
-            // Ignore malformed calldata
+          } catch (e) {
+            // Ignore invalid chunk or address
+          }
         }
-
-        return [...new Set(addresses)];
+      }
+    } catch (e) {
+      // Ignore malformed calldata
     }
 
-    /**
-     * Extracts contract addresses from transaction logs.
-     *
-     * @param logs - Transaction receipt logs
-     * @returns Array of unique addresses
-     */
-    extractAddressesFromLogs(logs: Array<{ address: string }>): string[] {
-        const addresses = new Set<string>();
+    return [...new Set(addresses)];
+  }
 
-        for (const log of logs) {
-            try {
-                if (isAddress(log.address)) {
-                    const address = getAddress(log.address);
-                    addresses.add(address.toLowerCase());
-                }
-            } catch (e) {
-                // Ignore invalid log addresses
-            }
+  /**
+   * Extracts contract addresses from transaction logs.
+   *
+   * @param logs - Transaction receipt logs
+   * @returns Array of unique addresses
+   */
+  extractAddressesFromLogs(logs: Array<{ address: string }>): string[] {
+    const addresses = new Set<string>();
+
+    for (const log of logs) {
+      try {
+        if (isAddress(log.address)) {
+          const address = getAddress(log.address);
+          addresses.add(address.toLowerCase());
         }
-
-        return Array.from(addresses);
+      } catch (e) {
+        // Ignore invalid log addresses
+      }
     }
 
-    /**
-     * Extracts ERC20 transfer recipient from calldata.
-     *
-     * Supports only transfer(address,uint256).
-     *
-     * @param data - Transaction calldata
-     * @returns Address or null
-     */
-    extractTransferRecipient(data: Hex | string): string | null {
-        try {
-            // transfer(address,uint256) selector: 0xa9059cbb
-            if (data.startsWith('0xa9059cbb') && data.length >= 74) {
-                const addressHex = '0x' + data.slice(34, 74);
-                
-                if (isAddress(addressHex)) {
-                    return getAddress(addressHex);
-                }
-            }
-        } catch (e) {
-            // Ignore decode errors
-        }
+    return Array.from(addresses);
+  }
 
-        return null;
+  /**
+   * Extracts ERC20 transfer recipient from calldata.
+   *
+   * Supports only transfer(address,uint256).
+   *
+   * @param data - Transaction calldata
+   * @returns Address or null
+   */
+  extractTransferRecipient(data: Hex | string): string | null {
+    try {
+      // transfer(address,uint256) selector: 0xa9059cbb
+      if (data.startsWith('0xa9059cbb') && data.length >= 74) {
+        const addressHex = '0x' + data.slice(34, 74);
+
+        if (isAddress(addressHex)) {
+          return getAddress(addressHex);
+        }
+      }
+    } catch (e) {
+      // Ignore decode errors
     }
+
+    return null;
+  }
 }

@@ -10,7 +10,7 @@
   "dependencies": {
     "viem": "^2.45.0",
     "grammy": "^1.39.3",
-    "better-sqlite3": "^11.10.0",
+    "better-sqlite3": "^12.6.2",
     "mysql2": "^3.11.4",
     "eventemitter3": "^5.0.4"
   },

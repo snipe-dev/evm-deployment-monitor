@@ -7,21 +7,21 @@ import {Hex, PublicClient} from 'viem';
  * independent from the original RPC response format.
  */
 export interface TransactionData {
-    hash: Hex;
-    blockNumber: bigint | null;
-    blockHash: Hex | null;
-    index: number;
-    to: Hex | null;
-    from: Hex;
-    nonce: number;
-    gas: bigint;
-    gasPrice: bigint | null;
-    maxPriorityFeePerGas: bigint | null;
-    maxFeePerGas: bigint | null;
-    data: Hex;
-    value: bigint;
-    chainId: number;
-    source: string;
+  hash: Hex;
+  blockNumber: bigint | null;
+  blockHash: Hex | null;
+  index: number;
+  to: Hex | null;
+  from: Hex;
+  nonce: number;
+  gas: bigint;
+  gasPrice: bigint | null;
+  maxPriorityFeePerGas: bigint | null;
+  maxFeePerGas: bigint | null;
+  data: Hex;
+  value: bigint;
+  chainId: number;
+  source: string;
 }
 
 /**
@@ -31,11 +31,11 @@ export interface TransactionData {
  * normalized transactions.
  */
 export interface BlockData {
-    source: string;
-    number: bigint;
-    hash: Hex;
-    timestamp: bigint;
-    transactions: TransactionData[];
+  source: string;
+  number: bigint;
+  hash: Hex;
+  timestamp: bigint;
+  transactions: TransactionData[];
 }
 
 /**
@@ -46,9 +46,9 @@ export interface BlockData {
  * - error            Emitted on processing or RPC errors
  */
 export interface BlockReaderEvents {
-    'new_block': (block: BlockData) => void;
-    'new_transaction': (transaction: TransactionData) => void;
-    'error': (error: Error) => void;
+  'new_block': (block: BlockData) => void;
+  'new_transaction': (transaction: TransactionData) => void;
+  'error': (error: Error) => void;
 }
 
 /**
@@ -58,8 +58,8 @@ export interface BlockReaderEvents {
  * requestTimeout Optional timeout (in milliseconds) per request
  */
 export interface MultinodePublicClientConfig {
-    rpcUrls: string[];
-    requestTimeout?: number;
+  rpcUrls: string[];
+  requestTimeout?: number;
 }
 
 /**
@@ -70,9 +70,9 @@ export interface MultinodePublicClientConfig {
  * - highestBlock  Prefer the response with the highest block number
  */
 export type ConsensusStrategy =
-    | 'firstSuccess'
-    | 'mostLogs'
-    | 'highestBlock';
+  | 'firstSuccess'
+  | 'mostLogs'
+  | 'highestBlock';
 
 /**
  * Utility types enabling type-safe invocation of PublicClient methods.
@@ -91,11 +91,11 @@ export type ConsensusStrategy =
 export type PublicClientMethod = keyof PublicClient;
 
 export type MethodParameters<M extends PublicClientMethod> =
-    PublicClient[M] extends (...args: any[]) => any
-        ? Parameters<PublicClient[M]>
-        : never;
+  PublicClient[M] extends (...args: any[]) => any
+    ? Parameters<PublicClient[M]>
+    : never;
 
 export type MethodReturnType<M extends PublicClientMethod> =
-    PublicClient[M] extends (...args: any[]) => any
-        ? ReturnType<PublicClient[M]>
-        : never;
+  PublicClient[M] extends (...args: any[]) => any
+    ? ReturnType<PublicClient[M]>
+    : never;

@@ -9,53 +9,54 @@ import {InlineKeyboard} from "grammy";
  * Messages are processed strictly sequentially.
  */
 export type SendQueueItem = {
-    chatId: number | string;
-    text: string;
-    buttons: InlineKeyboard | undefined;
-    messageId: string;
-    resolve: (value: number) => void;
-    reject: (reason?: any) => void;
+  chatId: number | string;
+  text: string;
+  buttons: InlineKeyboard | undefined;
+  messageId: string;
+  resolve: (value: number) => void;
+  reject: (reason?: any) => void;
 };
 
 /**
  * Internal queue item representing a pending edit operation.
  */
 export type EditQueueItem = {
-    chatId: number | string;
-    msgId: number;
-    text: string;
-    buttons: InlineKeyboard | undefined;
-    editId: string;
-    resolve: (value: boolean) => void;
-    reject: (reason?: any) => void;
+  chatId: number | string;
+  msgId: number;
+  text: string;
+  buttons: InlineKeyboard | undefined;
+  editId: string;
+  resolve: (value: boolean) => void;
+  reject: (reason?: any) => void;
 };
 
 /**
  * Sender information extracted from message.
  */
 export interface Sender {
-    chatId: number;
-    userId: number;
-    username: string;
-    fullname: string;
-    chatType: string; // 'private', 'group', 'supergroup', 'channel'
+  chatId: number;
+  userId: number;
+  username: string;
+  fullname: string;
+  chatType: string; // 'private', 'group', 'supergroup', 'channel'
 }
 
 /**
  * Configuration for Spybot instance.
  */
 export interface SpybotConfig {
-    open_access: boolean;
-    owner: number;
-    explorer: string;
+  open_access: boolean;
+  owner: number;
+  explorer: string;
 }
 
 /**
  * Configuration object structure for saving to file.
  */
 export interface Config {
-    http_node?: string;
-    wss_node?: string;
-    debug_node?: string;
-    [key: string]: any;
+  http_node?: string;
+  wss_node?: string;
+  debug_node?: string;
+
+  [key: string]: any;
 }

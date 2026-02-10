@@ -23,6 +23,6 @@ export const PROMO_MESSAGE_CAPTION = `<b>💠_SPYBOT💠</b>
 
 
 export const PROMO_MESSAGE_KEYBOARD = new InlineKeyboard()
-    .url("♾News and product @scan_tools", "https://t.me/scan_tools")
-    .row()
-    .url("💻Order Your Custom Bot Now @snipe_dev", "https://t.me/snipe_dev");
+  .url("♾News and product @scan_tools", "https://t.me/scan_tools")
+  .row()
+  .url("💻Order Your Custom Bot Now @snipe_dev", "https://t.me/snipe_dev");
