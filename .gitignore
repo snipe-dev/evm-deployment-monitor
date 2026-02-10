@@ -3,6 +3,7 @@ node_modules/
 
 # Build output
 dist/
+.idea/
 
 # Local configs
 src/config/*.json
